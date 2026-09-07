@@ -4,9 +4,16 @@ A modern, high-performance **Inventory Management System** built with **Expo**, 
 
 ---
 
-## 📱 Complete Multi-Screen Showcase
+## 📱 Multi-Screen Display & App Flow
 
-![Full App Screens Showcase](./assets/full_app_screens_showcase.png)
+![Inventory App Multi-Screen Showcase](./assets/app_screens_showcase.png)
+
+### Real App Views Included in Showcase:
+1. **Staff Dashboard**: Department timeline cards (Quality, Packaging Stage 1 & 2, Inventory Location).
+2. **Add Factory (Inward)**: Log master cartons into factory inventory with automatic inner children updates.
+3. **Transport (In-Transit Movement)**: Set carton details, select destination warehouses, and dispatch to transit.
+4. **Delivery to Godown (Receiving)**: Set receiving godown location, track arriving cartons, and confirm receipt.
+5. **Warehouse Selection Bottom Sheet**: Interactive glassmorphic bottom sheet picker listing MIDC & regional warehouses.
 
 ---
 
@@ -51,43 +58,6 @@ npm start
 ```
 
 Press `w` to open in browser, `a` for Android emulator, or `i` for iOS simulator.
-
----
-
-## 📦 Project Structure
-
-```
-InventryManagemetSystem/
-├── assets/
-│   ├── app_preview.png
-│   └── full_app_screens_showcase.png
-├── src/
-│   ├── components/
-│   │   ├── PulseFAB.tsx
-│   │   ├── RoleActionCard.tsx
-│   │   ├── SystemTabBar.tsx
-│   │   └── ThemeToggle.tsx
-│   ├── screens/
-│   │   ├── AdminDashboardView.tsx
-│   │   ├── DataManagementView.tsx
-│   │   ├── GrinDashboardView.tsx
-│   │   ├── GsnGrinFormsView.tsx
-│   │   ├── InventoryItemManagementView.tsx
-│   │   ├── InventoryLocationView.tsx
-│   │   ├── LandingScreen.tsx
-│   │   ├── PackagingStage1View.tsx
-│   │   ├── PackagingStage2View.tsx
-│   │   ├── QualityDepartmentView.tsx
-│   │   ├── StaffDashboardView.tsx
-│   │   ├── StaffStockView.tsx
-│   │   └── UserManagementView.tsx
-│   └── theme/
-│       └── landingTheme.ts
-├── App.tsx
-├── app.json
-├── package.json
-└── tsconfig.json
-```
 
 ---
 
