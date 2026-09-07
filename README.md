@@ -4,9 +4,9 @@ A modern, high-performance **Inventory Management System** built with **Expo**, 
 
 ---
 
-## 📱 App Preview
+## 📱 Complete Multi-Screen Showcase
 
-![Inventory App Preview](./assets/app_preview.png)
+![Full App Screens Showcase](./assets/full_app_screens_showcase.png)
 
 ---
 
@@ -59,7 +59,8 @@ Press `w` to open in browser, `a` for Android emulator, or `i` for iOS simulator
 ```
 InventryManagemetSystem/
 ├── assets/
-│   └── app_preview.png
+│   ├── app_preview.png
+│   └── full_app_screens_showcase.png
 ├── src/
 │   ├── components/
 │   │   ├── PulseFAB.tsx
