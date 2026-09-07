@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Animated, TouchableWithoutFeedback, View, Text, StyleSheet } from 'react-native';
-import { Users, ArrowUpRight, Award, Trophy, DollarSign, Gift, LucideIcon } from 'lucide-react-native';
+import { Users, ArrowUpRight, LucideIcon } from 'lucide-react-native';
 import { ThemeColors, ThemeMode } from '../theme/landingTheme';
 
 interface RoleActionCardProps {
@@ -18,6 +18,7 @@ export const RoleActionCard: React.FC<RoleActionCardProps> = ({
 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const theme = ThemeColors[mode];
+  const isDark = mode === 'dark';
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
@@ -37,7 +38,6 @@ export const RoleActionCard: React.FC<RoleActionCardProps> = ({
     }).start();
   };
 
-  // Determine default icon if custom icon not provided
   const IconComponent = CustomIcon || Users;
 
   return (
@@ -50,28 +50,43 @@ export const RoleActionCard: React.FC<RoleActionCardProps> = ({
         style={[
           styles.rowCard,
           {
-            backgroundColor: theme.rowBg,
-            borderColor: theme.rowBorder,
+            backgroundColor: isDark ? '#02141A' : '#F1F5F9',
+            borderColor: isDark ? 'rgba(0, 229, 255, 0.25)' : '#CBD5E1',
             transform: [{ scale: scaleAnim }],
           },
         ]}
       >
         <View style={styles.leftSection}>
-          <View style={[styles.iconBadge, { backgroundColor: theme.rowIconBg }]}>
-            <IconComponent size={18} color={theme.rowIconColor} />
+          <View
+            style={[
+              styles.iconBadge,
+              {
+                backgroundColor: isDark ? 'rgba(163, 230, 53, 0.15)' : '#DBEAFE',
+                borderColor: isDark ? '#A3E635' : '#2563EB',
+              },
+            ]}
+          >
+            <IconComponent size={18} color={isDark ? '#A3E635' : '#2563EB'} />
           </View>
-          <Text style={[styles.roleTitle, { color: theme.rowTitle }]}>{title}</Text>
+          <Text style={[styles.roleTitle, { color: isDark ? '#FFFFFF' : '#0F172A' }]}>
+            {title}
+          </Text>
         </View>
 
         {/* Pill Button 'See Details ↗' */}
         <View
           style={[
             styles.pillBtn,
-            { backgroundColor: theme.pillBg, borderColor: theme.pillBorder },
+            {
+              backgroundColor: isDark ? 'rgba(255, 255, 255, 0.06)' : '#E2E8F0',
+              borderColor: isDark ? 'rgba(255, 255, 255, 0.12)' : '#CBD5E1',
+            },
           ]}
         >
-          <Text style={[styles.pillText, { color: theme.pillText }]}>See Details</Text>
-          <ArrowUpRight size={14} color={theme.pillArrow} />
+          <Text style={[styles.pillText, { color: isDark ? '#94A3B8' : '#475569' }]}>
+            See Details
+          </Text>
+          <ArrowUpRight size={14} color={isDark ? '#94A3B8' : '#475569'} />
         </View>
       </Animated.View>
     </TouchableWithoutFeedback>
@@ -84,26 +99,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 18,
     marginBottom: 14,
     borderWidth: 1,
   },
   leftSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    gap: 12,
   },
   iconBadge: {
     width: 36,
     height: 36,
     borderRadius: 18,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   roleTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
     fontFamily: 'Inter',
   },
@@ -117,7 +133,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   pillText: {
-    fontSize: 13,
+    fontSize: 12.5,
     fontWeight: '600',
     fontFamily: 'Inter',
   },

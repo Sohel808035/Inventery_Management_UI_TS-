@@ -7,13 +7,11 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
-import { Menu, Users, Gift, Trophy, DollarSign, Target } from 'lucide-react-native';
+import { Menu, Users } from 'lucide-react-native';
 import { ThemeColors, ThemeMode } from '../theme/landingTheme';
 import { ThemeToggle } from '../components/ThemeToggle';
-import { SystemTabBar, SystemTab } from '../components/SystemTabBar';
 import { RoleActionCard } from '../components/RoleActionCard';
 import { PulseFAB } from '../components/PulseFAB';
-import { GrinDashboardView } from './GrinDashboardView';
 
 interface LandingScreenProps {
   mode: ThemeMode;
@@ -28,96 +26,32 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
   onToggleTheme,
   onSelectRole,
 }) => {
-  const [activeSystemTab, setActiveSystemTab] = useState<SystemTab>('INVENTORY');
   const theme = ThemeColors[mode];
   const isDark = mode === 'dark';
-
-  if (activeSystemTab === 'GRIN') {
-    return (
-      <GrinDashboardView
-        mode={mode}
-        onToggleTheme={onToggleTheme}
-        onBack={() => setActiveSystemTab('INVENTORY')}
-      />
-    );
-  }
 
   const handleMenuPress = () => {
     Alert.alert(
       'System Options',
-      'Inventory Management v2.5\n\n• Admin Dashboard\n• Staff Stock Inspector\n• System Preferences',
+      'Inventory Management v2.5\n\n• Admin Dashboard\n• Staff Dashboard\n• System Preferences',
       [{ text: 'Close', style: 'cancel' }]
     );
   };
 
   const handleFabPress = () => {
-    const currentSystemName =
-      activeSystemTab === 'INVENTORY'
-        ? 'Inventory Management'
-        : 'Incentive System';
-
     Alert.alert(
-      'Voice & Scanner',
-      `Trigger barcode scan or voice action for ${currentSystemName}:`,
+      'Voice Assistant & Scanner',
+      'Select a role or trigger quick action:',
       [
         { text: 'Open Admin Dashboard', onPress: () => onSelectRole('Admin') },
-        { text: 'Open Staff Stock', onPress: () => onSelectRole('Staff') },
+        { text: 'Open Staff Dashboard', onPress: () => onSelectRole('Staff') },
         { text: 'Cancel', style: 'cancel' },
       ]
     );
   };
 
-  const handleSubOptionPress = (optionName: string) => {
-    Alert.alert(
-      optionName,
-      `Launching ${optionName} details view...`,
-      [{ text: 'OK', style: 'default' }]
-    );
-  };
-
-  // Content configuration for each system tab
-  const getSystemConfig = () => {
-    switch (activeSystemTab) {
-      case 'INVENTORY':
-      default:
-        return {
-          titleLine1: 'Inventory',
-          titleLine2: 'Management',
-          card1: {
-            title: 'Admin',
-            icon: Users,
-            action: () => onSelectRole('Admin'),
-          },
-          card2: {
-            title: 'Staff',
-            icon: Users,
-            action: () => onSelectRole('Staff'),
-          },
-        };
-
-      case 'INCENTIVE':
-        return {
-          titleLine1: 'Incentive',
-          titleLine2: 'System',
-          card1: {
-            title: 'Commissions',
-            icon: DollarSign,
-            action: () => handleSubOptionPress('Commissions'),
-          },
-          card2: {
-            title: 'Bonuses',
-            icon: Target,
-            action: () => handleSubOptionPress('Bonus Targets'),
-          },
-        };
-    }
-  };
-
-  const config = getSystemConfig();
-
   return (
     <View style={[styles.outerWrapper, { backgroundColor: isDark ? '#000000' : '#E2E8F0' }]}>
-      {/* Mobile Device Frame Container (390 x 844 px mobile view with 28px rounded corners) */}
+      {/* Mobile Device Frame Container (390 x 844 px) */}
       <View
         style={[
           styles.mobileContainer,
@@ -127,24 +61,29 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
           },
         ]}
       >
-        {/* Background Atmospheric Glow Shapes for Light Mode */}
-        {!isDark && (
+        {/* Soft Background Cyan Glow for Dark Mode */}
+        {isDark ? (
+          <View style={styles.softCyanRadialGlow} />
+        ) : (
           <>
             <View style={styles.lightAmberGlow} />
             <View style={styles.lightSageGlow} />
           </>
         )}
 
-        {/* Top Header */}
+        {/* Top Header Bar */}
         <View style={[styles.header, { backgroundColor: theme.headerBg }]}>
           <View style={styles.headerLeft}>
             <View
               style={[
                 styles.boBadge,
-                { backgroundColor: theme.boBg, borderColor: theme.boBorder },
+                {
+                  backgroundColor: isDark ? '#050B0E' : '#FFFFFF',
+                  borderColor: isDark ? '#A3E635' : '#10B981',
+                },
               ]}
             >
-              <Text style={[styles.boText, { color: theme.boText }]}>BO</Text>
+              <Text style={[styles.boText, { color: isDark ? '#A3E635' : '#059669' }]}>BO</Text>
             </View>
             <Text style={[styles.headerTitle, { color: theme.headerText }]}>
               Inventory Management
@@ -164,56 +103,42 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({
           </View>
         </View>
 
-        {/* System Tab Bar (Inventory Management | Grin System | Incentive System) */}
-        <SystemTabBar
-          mode={mode}
-          activeTab={activeSystemTab}
-          onSelectTab={setActiveSystemTab}
-        />
-
-        {/* Uniform Hero Box Container for All Systems */}
+        {/* Main Content Area */}
         <View style={styles.heroContainerWrapper}>
+          {/* Main Hero Card - Matching Reference Screenshot Exactly */}
           <View
             style={[
               styles.heroBox,
               {
-                backgroundColor: theme.heroBoxBg,
-                borderColor: theme.heroBoxBorder,
+                backgroundColor: isDark ? 'rgba(7, 26, 33, 0.95)' : '#FFFFFF',
+                borderColor: isDark ? 'rgba(0, 229, 255, 0.35)' : 'rgba(203, 213, 225, 0.8)',
               },
             ]}
           >
-            {/* Top Gradient Backdrop Header Area */}
-            <View
-              style={[
-                styles.topGradBackdrop,
-                { backgroundColor: theme.heroBoxHeaderBg },
-              ]}
-            />
-
-            {/* Stacked Central Title */}
+            {/* Title: Inventory Management */}
             <View style={styles.titleSection}>
-              <Text style={[styles.mainTitleLine, { color: theme.heroTitle }]}>
-                {config.titleLine1}
+              <Text style={[styles.mainTitleLine, { color: isDark ? '#FFFFFF' : '#0F172A' }]}>
+                Inventory
               </Text>
-              <Text style={[styles.mainTitleLine, { color: theme.heroTitle }]}>
-                {config.titleLine2}
+              <Text style={[styles.mainTitleLine, { color: isDark ? '#FFFFFF' : '#0F172A' }]}>
+                Management
               </Text>
             </View>
 
-            {/* Action Rows */}
+            {/* Role Action Cards Stack */}
             <View style={styles.rowsWrapper}>
               <RoleActionCard
                 mode={mode}
-                title={config.card1.title}
-                icon={config.card1.icon}
-                onPress={config.card1.action}
+                title="Admin"
+                icon={Users}
+                onPress={() => onSelectRole('Admin')}
               />
 
               <RoleActionCard
                 mode={mode}
-                title={config.card2.title}
-                icon={config.card2.icon}
-                onPress={config.card2.action}
+                title="Staff"
+                icon={Users}
+                onPress={() => onSelectRole('Staff')}
               />
             </View>
           </View>
@@ -240,6 +165,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     position: 'relative',
   },
+  softCyanRadialGlow: {
+    position: 'absolute',
+    top: 140,
+    alignSelf: 'center',
+    width: 320,
+    height: 240,
+    borderRadius: 120,
+    backgroundColor: '#00E5FF',
+    opacity: 0.1,
+  },
   lightAmberGlow: {
     position: 'absolute',
     top: -20,
@@ -264,9 +199,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 48,
-    paddingBottom: 8,
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 14,
     zIndex: 10,
   },
   headerLeft: {
@@ -275,20 +210,20 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   boBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   boText: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '800',
     fontFamily: 'Inter',
   },
   headerTitle: {
-    fontSize: 17,
+    fontSize: 17.5,
     fontWeight: '700',
     fontFamily: 'Inter',
   },
@@ -308,41 +243,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingBottom: 60,
+    paddingBottom: 40,
   },
   heroBox: {
-    borderRadius: 24,
-    padding: 24,
-    borderWidth: 1,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  topGradBackdrop: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 160,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    opacity: 0.6,
+    borderRadius: 28,
+    paddingVertical: 36,
+    paddingHorizontal: 20,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    gap: 28,
   },
   titleSection: {
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 36,
-    zIndex: 2,
+    gap: 2,
   },
   mainTitleLine: {
-    fontSize: 34,
-    fontWeight: '700',
+    fontSize: 32,
+    fontWeight: '800',
     fontFamily: 'Inter',
     letterSpacing: -0.5,
     textAlign: 'center',
-    lineHeight: 40,
+    lineHeight: 38,
   },
   rowsWrapper: {
     width: '100%',
-    zIndex: 2,
+    gap: 4,
   },
 });
